@@ -14,6 +14,11 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mysecret'
 socketio = SocketIO(app, cors_allowed_origins="*")
 
+@app.route('/hello')
+def hello():
+    return 'Hello, World!'
+
+
 def deposit (balance, lock):
     for i in range(100):
         time.sleep(0.05)

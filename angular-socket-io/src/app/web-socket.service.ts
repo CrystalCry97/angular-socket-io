@@ -11,7 +11,7 @@ export class WebSocketService {
   readonly uri: string = 'ws://127.0.0.1:5000';
 
   constructor() {
-    this.socket = io(this.uri);
+    this.socket = io.connect(this.uri);
   }
 
   listen(eventName: string) {

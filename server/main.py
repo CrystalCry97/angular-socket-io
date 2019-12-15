@@ -12,7 +12,7 @@ lock = multiprocessing.Lock()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mysecret'
-socketio = SocketIO(app)
+socketio = SocketIO(app, cors_allowed_origins="*")
 
 @app.route('/hello')
 def hello():
@@ -22,24 +22,24 @@ def hello():
 def deposit (balance, lock):
     for i in range(100):
         time.sleep(0.05)
-        lock.acquire()
+        # lock.acquire()
         temp = balance.value
         temp = temp + 1
         balance.value = temp
-        lock.release()
+        # lock.release()
 
 def withdraw (balance, lock):
     for i in range(100):
         time.sleep(0.05)
-        lock.acquire()
+        # lock.acquire()
         temp = balance.value
         temp = temp - 1
         balance.value = temp
-        lock.release()
+        # lock.release()
 
 @socketio.on('deposit')
 def Deposit(value):
-    print(Fore.GREEN + f'User deposit amount : {value} \n')
+    # print(Fore.GREEN + f'User deposit amount : {value} \n')
     d = multiprocessing.Process(target=deposit, args=(balance,lock))
     d.start()
     d.join()
@@ -48,7 +48,7 @@ def Deposit(value):
 
 @socketio.on('withdraw')
 def Withdraw(value):
-    print(Fore.YELLOW + f'User withdraw amount : {value} \n')
+    # print(Fore.YELLOW + f'User withdraw amount : {value} \n')
     w = multiprocessing.Process(target=withdraw, args=(balance,lock))
     w.start()
     w.join()
@@ -57,7 +57,7 @@ def Withdraw(value):
 
 @socketio.on('balance')
 def Balance(value):
-    print(Fore.CYAN + f"Balance is {balance.value} \n")
+    # print(Fore.CYAN + f"Balance is {balance.value} \n")
     socketio.emit('reply', str(balance.value))
 
 if __name__ == '__main__':

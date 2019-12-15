@@ -12,7 +12,7 @@ lock = multiprocessing.Lock()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'mysecret'
-socketio = SocketIO(app, cors_allowed_origins="*")
+socketio = SocketIO(app)
 
 @app.route('/hello')
 def hello():
@@ -61,4 +61,4 @@ def Balance(value):
     socketio.emit('reply', str(balance.value))
 
 if __name__ == '__main__':
- socketio.run(app)
+ socketio.run(app, port=8089)

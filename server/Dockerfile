@@ -1,15 +1,15 @@
-FROM python:3.7-slim
+FROM python:3.6.8-alpine
 
-RUN apt-get update
-RUN apt-get install -y --no-install-recommends build-essential gcc
+LABEL image for a very simple flask application
 
-# layer caching for faster builds
-COPY requirements.txt /
+WORKDIR /docker-flask
+
+COPY . .
+
 RUN pip install -r /requirements.txt
 
-ADD . /python-socketio
-WORKDIR /python-socketio
+RUN ["pip3", "install", "pipenv"]
 
-ENTRYPOINT ["python"]
+RUN ["pipenv", "install"]
 
-CMD ["main.py"]
+CMD pipenv run python main.py

@@ -1,26 +1,11 @@
-# Create image based off of the official Node 10 image
-FROM node:12.8-alpine
+### STAGE 1: Build ###
+FROM node:12.7-alpine AS build
+WORKDIR /usr/src/app
+COPY package.json ./
+RUN npm install
+COPY . .
+RUN npm run build
 
-# Copy dependency definitions
-COPY package.json package-lock.json ./
-
-
-# disabling ssl for npm for Dev or if you are behind proxy
-RUN npm set strict-ssl false
-
-## installing and Storing node modules on a separate layer will prevent unnecessary npm installs at each build
-RUN npm i && mkdir /app && mv ./node_modules ./app
-
-# Change directory so that our commands run inside this new directory
-WORKDIR /app
-
-# Get all the code needed to run the app
-COPY . /app/
-
-# Build server side bundles
-RUN npm run build:ssr
-
-# Expose the port the app runs in
-EXPOSE 4000
-# Serve the app
-CMD ["node", "dist/server"]
+### STAGE 2: Run ###
+FROM nginx:1.17.1-alpine
+COPY --from=build /usr/src/app/dist/angular-socket-io /usr/share/nginx/html

@@ -39,7 +39,7 @@ def Deposit(value):
     d.start()
     d.join()
     print (Fore.GREEN + 'Done \n')
-    return "Done"
+    socketio.emit('reply', 'Done')
 
 @socketio.on('withdraw')
 def Withdraw(value):
@@ -48,12 +48,12 @@ def Withdraw(value):
     w.start()
     w.join()
     print (Fore.YELLOW + "Done \n")
-    return "Done"
+    socketio.emit('reply', 'Done')
 
 @socketio.on('balance')
 def Balance(value):
     print(Fore.CYAN + f"Balance is {balance.value} \n")
-    return balance
+    socketio.emit('reply', str(balance.value))
 
 if __name__ == '__main__':
  socketio.run(app)

@@ -6,7 +6,7 @@ WORKDIR /docker-flask
 
 COPY . .
 
-RUN pip install -r /docker-flask/requirements.txt
+# RUN pip install -r /docker-flask/requirements.txt
 
 RUN ["pip3", "install", "pipenv"]
 

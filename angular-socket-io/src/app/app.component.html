@@ -1,5 +1,9 @@
-<button (click)="deposit()">Deposit</button>
-<button (click)="withdraw()">Withdraw</button>
-<button (click)="balance()">Balance</button>
+<input type="text" [(ngModel)]="valToUpdate" #ctrl="ngModel">
+<button (click)="request()">Request</button>
+<button (click)="release()">Release</button>
+<button (click)="valuecs()">CS Value</button>
+<h2>{{state}}</h2>
+<h2>Number of connected nodes: {{numberOfNodes}}</h2>
+<h2>CS Value: {{csValue}}</h2>
 
 

@@ -1,0 +1,33 @@
+version: '3'
+services:
+    angular:
+      build: angular-socket-io
+      image: amalsyahmi97/angular-socket-client:v2
+      ports:
+        - 80:80
+      networks: 
+        - mynet
+
+    server:
+      build: server2
+      image: amalsyahmi97/angular-socket-server:v2
+      ports:
+        - 5000:5000
+      networks:
+        - mynet
+      links:
+        - mongo
+      environment: 
+        MONGODB_SERVICE_SERVICE_HOST: "mongo"
+
+    mongo:
+      image: mongo:4.0.3
+      # volumes:
+      #   - ./mongodata1:/data/db
+      ports:
+        - 27017:27017
+      networks:
+        - mynet
+
+networks:
+  mynet:

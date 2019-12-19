@@ -1,9 +1,11 @@
 const express = require('express');
 const app = express();
 const http = require('http').createServer(app);
-const io = require('socket.io')(http);
 const os = require('os');
-const fs = require('fs');
+
+const allowedOrigins = '*:*';
+const io = require('socket.io')(http, { origins: allowedOrigins, transport: ['polling', 'websocket']});
+io.origins([allowedOrigins]);
 
 //database
 const mongodb = require('mongodb');
